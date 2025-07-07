@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -12,17 +13,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.runningtracker.ui.theme.RunningTrackerTheme
+import com.yandex.mapkit.MapKitFactory
+import ru.sulgik.mapkit.compose.YandexMap
+import ru.sulgik.mapkit.compose.bindToLifecycleOwner
+import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
+import ru.sulgik.mapkit.compose.rememberCameraPositionState
+import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.CameraPosition
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        MapKitFactory.setApiKey(BuildConfig.YANDEX_MAPKIT_API_KEY)
         setContent {
             RunningTrackerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    rememberAndInitializeMapKit().bindToLifecycleOwner()
+                    val cameraPositionState = rememberCameraPositionState {
+                        position = CameraPosition(Point(55.751244, 37.618423), 10.0f, 0.0f, 0.0f)
+                    }
+                    YandexMap(
+                        cameraPositionState = cameraPositionState,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             }
