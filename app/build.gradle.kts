@@ -1,12 +1,13 @@
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 val localProperties = Properties()
@@ -57,6 +58,8 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        languageVersion = "2.2"
+        apiVersion = "2.2"
     }
     buildFeatures {
         compose = true
@@ -108,7 +111,7 @@ dependencies {
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    kapt(libs.hilt.android.compiler)
 
     // Retrofit
     implementation(libs.retrofit.core)
@@ -133,4 +136,12 @@ dependencies {
     implementation(libs.yandex.maps.mobile)
     implementation(libs.yandex.mapkit.kmp)
     implementation(libs.yandex.mapkit.kmp.compose)
+
+    // Accompanist Permissions
+    implementation(libs.accompanist.permissions)
+
+    // Kotlinx Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 }

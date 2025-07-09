@@ -7,7 +7,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
-composeBom = "2024.04.01"
+composeBom = "2025.06.01"
 
 kspVersion = "2.2.0-2.0.2"
 versionNavigation = "2.9.1"
@@ -27,6 +27,9 @@ core = "1.49.0"
 mapsMobile = "4.3.2-lite"
 yandexMapkitKmp = "0.2.0"
 yandexMapkitKmpCompose = "0.2.0"
+accompanistPermissions = "0.37.3"
+kotlinxCoroutinesCore = "1.7.3"
+kotlinxCoroutinesAndroid = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -84,6 +87,14 @@ yandex-mapkit-kmp = { module = "ru.sulgik.mapkit:yandex-mapkit-kmp", version.ref
 yandex-mapkit-kmp-compose = { module = "ru.sulgik.mapkit:yandex-mapkit-kmp-compose", version.ref = "yandexMapkitKmpCompose" }
 yandex-maps-mobile = { module = "com.yandex.android:maps.mobile", version.ref = "mapsMobile" }
 
+# accompanist permissions
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+
+# kotlinx coroutines
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -91,5 +102,6 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 [bundles]
 
