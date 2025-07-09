@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Running tracker</string>
+    <string name="name_top_bar">Running tracking</string>
+    <string name="cd_text_icon_history">Running tracking</string>
+
+<!--region PermissionOnToSettingsScreen texts-->
+    <string name="text_title_permission_in_to_settings_screen">Разрешения отключены. Включите их в настройках</string>
+    <string name="text_open_settings">Открыть настройки</string>
+<!--endregion -->
+
+<!--region NeededLocationPermissions texts-->
+    <string name="text_title_needed_location_permission">Для работы приложения нужны разрешения на геолокациюи</string>
+    <string name="text_request_permissions">Запросить разрешения</string>
+<!--endregion -->
+
+<!--region EnableGeoLocation texts-->
+    <string name="text_title_enable_geo_location">Геолокация выключена. Включите её для работы приложения.</string>
+    <string name="text_on_geo">Включить геолокацию</string>
+<!--endregion -->
+
+<!--region LocationLoadingBar texts-->
+    <string name="text_loading_location">Не пугайтесь что вы в море, через несколько секунд все станет хорошо, а пока отдохните на море</string>
+<!--endregion -->
+
+    <string name="text_requesting_permissions">Запрашиваем разрешения…</string>
 </resources>
