@@ -1,10 +1,6 @@
-package com.example.runningtracker.presentation.screens.map_screens
+package com.example.runningtracker.core.ui.components.map_screen
 
-import android.content.Context
-import android.content.Intent
-import android.provider.Settings
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -21,11 +17,14 @@ import com.example.runningtracker.core.ui.theme.fz_16
 import com.example.runningtracker.core.ui.theme.fz_18
 import com.example.runningtracker.core.ui.theme.padding_20
 import com.example.runningtracker.core.ui.theme.padding_24
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.MultiplePermissionsState
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun EnableGeoLocation(
+fun NeededLocationPermissions(
     modifier: Modifier = Modifier,
-    context: Context
+    multiplePermissionsState: MultiplePermissionsState
 ) {
     Column(
         modifier = modifier
@@ -35,22 +34,18 @@ fun EnableGeoLocation(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.text_title_enable_geo_location),
+            text = stringResource(R.string.text_title_needed_location_permission),
             color = Color.Blue,
             fontSize = fz_18,
             fontFamily = FontFamily.Monospace,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.padding(top = padding_20))
-        Button(onClick = {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            context.startActivity(intent)
-        }) {
+        Button(onClick = { multiplePermissionsState.launchMultiplePermissionRequest() }) {
             Text(
-                text = stringResource(R.string.text_on_geo),
+                text = stringResource(R.string.text_request_permissions),
                 color = Color.White,
                 fontSize = fz_16,
-                fontFamily = FontFamily.Monospace
+                fontFamily = FontFamily.Monospace,
             )
         }
     }

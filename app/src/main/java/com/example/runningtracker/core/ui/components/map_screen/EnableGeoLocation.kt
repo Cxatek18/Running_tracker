@@ -1,8 +1,7 @@
-package com.example.runningtracker.presentation.screens.map_screens
+package com.example.runningtracker.core.ui.components.map_screen
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +23,7 @@ import com.example.runningtracker.core.ui.theme.padding_20
 import com.example.runningtracker.core.ui.theme.padding_24
 
 @Composable
-fun PermissionOnToSettings(
+fun EnableGeoLocation(
     modifier: Modifier = Modifier,
     context: Context
 ) {
@@ -33,10 +32,10 @@ fun PermissionOnToSettings(
             .padding(top = padding_24)
             .fillMaxSize()
             .padding(horizontal = padding_20),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.text_title_permission_in_to_settings_screen),
+            text = stringResource(R.string.text_title_enable_geo_location),
             color = Color.Blue,
             fontSize = fz_18,
             fontFamily = FontFamily.Monospace,
@@ -44,15 +43,14 @@ fun PermissionOnToSettings(
         )
         Spacer(modifier = Modifier.padding(top = padding_20))
         Button(onClick = {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.fromParts("package", context.packageName, null)
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             context.startActivity(intent)
         }) {
             Text(
-                text = stringResource(R.string.text_open_settings),
+                text = stringResource(R.string.text_on_geo),
                 color = Color.White,
                 fontSize = fz_16,
-                fontFamily = FontFamily.Monospace,
+                fontFamily = FontFamily.Monospace
             )
         }
     }

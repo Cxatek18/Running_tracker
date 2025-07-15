@@ -22,5 +22,15 @@
     <string name="text_loading_location">Не пугайтесь что вы в море, через несколько секунд все станет хорошо, а пока отдохните на море</string>
 <!--endregion -->
 
+<!--region MapScreen texts-->
     <string name="text_requesting_permissions">Запрашиваем разрешения…</string>
+    <string name="text_btn_start">Старт</string>
+    <string name="text_btn_stop">Стоп</string>
+<!--endregion -->
+
+<!--region RunningTrackWindow texts-->
+    <string name="text_run_run">Бегим бегим</string>
+    <string name="text_time_run">Время: %s</string>
+    <string name="text_distance_run">Дистанция: %s m</string>
+<!-- endregion-->
 </resources>

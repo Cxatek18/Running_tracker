@@ -13,6 +13,7 @@ val padding_0 = 0.dp
 
 //region font_size
 val fz_24 = 24.sp
+val fz_20 = 20.sp
 val fz_18 = 18.sp
 val fz_16 = 16.sp
 //endregion

@@ -6,12 +6,14 @@ import android.os.Looper
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LifecycleOwner
 import com.example.runningtracker.R
 import com.example.runningtracker.presentation.screens.map_screens.state.MapScreenState
+import com.example.runningtracker.presentation.screens.map_screens.utils.MapIntervals
 import com.example.runningtracker.presentation.screens.map_screens.view_models.MapScreenViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
@@ -21,12 +23,15 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import ru.sulgik.mapkit.compose.Placemark
+import ru.sulgik.mapkit.compose.Polyline
 import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.bindToLifecycleOwner
 import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
 import ru.sulgik.mapkit.compose.rememberCameraPositionState
 import ru.sulgik.mapkit.compose.rememberPlacemarkState
+import ru.sulgik.mapkit.compose.rememberPolylineState
 import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.map.CameraPosition
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.fromResource
@@ -42,8 +47,13 @@ fun MapUiElement(
     lifecycleOwner: LifecycleOwner,
     permissionsState: MultiplePermissionsState,
 ) {
-    val millisMinUpdateInterval = 1_000L
-    val intervalMillis = 5_000L
+    val cameraPositionState = rememberCameraPositionState()
+    val placeMarkState = rememberPlacemarkState(
+        Point(
+            latitude = state.userLocationLatitude,
+            longitude = state.userLocationLongitude
+        )
+    )
 
     rememberAndInitializeMapKit().bindToLifecycleOwner()
 
@@ -51,7 +61,7 @@ fun MapUiElement(
         LocationServices.getFusedLocationProviderClient(context)
     fusedLocationClient.lastLocation.addOnSuccessListener { location ->
         if (location != null) {
-            viewModel.changeUserLocation(
+            viewModel.updateUserLocation(
                 userLocationLatitude = location.latitude,
                 userLocationLongitude = location.longitude
             )
@@ -63,24 +73,32 @@ fun MapUiElement(
             override fun onLocationResult(locationResult: LocationResult) {
                 val location = locationResult.lastLocation
                 if (location != null) {
-                    viewModel.changeUserLocation(
+                    viewModel.updateUserLocation(
                         userLocationLatitude = location.latitude,
                         userLocationLongitude = location.longitude
                     )
+                    viewModel.updateWayTrack(
+                        pointLocationLatitude = location.latitude,
+                        pointLocationLongitude = location.longitude
+                    )
+                    viewModel.updateDistanceTrack()
                 }
             }
         }
     }
 
     DisposableEffect(
-        lifecycleOwner,
-        permissionsState.allPermissionsGranted,
-        true
+        key1 = lifecycleOwner,
+        key2 = permissionsState.allPermissionsGranted,
+        key3 = true
     ) {
         val locationRequest = LocationRequest.Builder(
-            Priority.PRIORITY_HIGH_ACCURACY, intervalMillis
+            Priority.PRIORITY_HIGH_ACCURACY,
+            MapIntervals.INTERVAL_MILLIS.interval
         )
-            .setMinUpdateIntervalMillis(millisMinUpdateInterval)
+            .setMinUpdateIntervalMillis(
+                MapIntervals.MILLIS_MIN_UPDATE_INTERVAL.interval
+            )
             .build()
 
         fusedLocationClient.requestLocationUpdates(
@@ -93,29 +111,40 @@ fun MapUiElement(
         }
     }
 
-
-    val cameraPositionState = rememberCameraPositionState()
-    val placeMarkState = rememberPlacemarkState(
-        Point(state.userLocationLatitude, state.userLocationLongitude)
-    )
-
-    LaunchedEffect(
-        state.userLocationLatitude,
-        state.userLocationLongitude
+    if (
+        state.userLocationLatitude != MapScreenViewModel.ZERO_DOUBLE &&
+        state.userLocationLongitude != MapScreenViewModel.ZERO_DOUBLE
     ) {
+        viewModel.changeIsChangingCameraPosition(true)
+        viewModel.changeIsLoadingMap(true)
+    } else {
+        viewModel.changeIsChangingCameraPosition(false)
+        viewModel.changeIsLoadingMap(false)
+    }
+
+    if (!state.isChangeCameraPositionMap) {
         cameraPositionState.position = CameraPosition(
-            Point(state.userLocationLatitude, state.userLocationLongitude),
-            state.zoomMap,
+            Point(
+                state.userLocationLatitude,
+                state.userLocationLongitude
+            ),
+            state.zoom,
             state.azimuthMap,
             state.tiltMap
         )
-        placeMarkState.geometry =
-            Point(state.userLocationLatitude, state.userLocationLongitude)
     }
+
+    placeMarkState.geometry =
+        Point(
+            state.userLocationLatitude,
+            state.userLocationLongitude
+        )
+
+    state.wayTrackState
 
     YandexMap(
         cameraPositionState = cameraPositionState,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         Placemark(
             state = placeMarkState,
@@ -124,5 +153,23 @@ fun MapUiElement(
                 R.drawable.img_place_from
             ),
         )
+
+        val currentPolyline = remember(state.wayTrackState) {
+            if (state.wayTrackState.size > 1) {
+                Polyline(state.wayTrackState.map {
+                    Point(it.startTrackLatitude, it.startTrackLongitude)
+                })
+            } else null
+        }
+
+        currentPolyline?.let { polyline ->
+            key(polyline) {
+                Polyline(
+                    state = rememberPolylineState(geometry = polyline),
+                    strokeColor = Color.Green,
+                    strokeWidth = 3f
+                )
+            }
+        }
     }
 }
