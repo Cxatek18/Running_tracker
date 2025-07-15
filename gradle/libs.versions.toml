@@ -28,7 +28,7 @@ mapsMobile = "4.3.2-lite"
 yandexMapkitKmp = "0.2.0"
 yandexMapkitKmpCompose = "0.2.0"
 accompanistPermissions = "0.37.3"
-kotlinxCoroutinesCore = "1.7.3"
+kotlinxCoroutinesCore = "1.9.0"
 kotlinxCoroutinesAndroid = "1.9.0"
 
 [libraries]
