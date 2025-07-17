@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.implementation
 import java.util.Properties
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -144,4 +145,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

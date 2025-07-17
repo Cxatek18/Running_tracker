@@ -6,6 +6,7 @@ import android.location.LocationManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.runningtracker.domain.module.running_tracker.PointTrack
 import com.example.runningtracker.domain.module.running_tracker.RunTrackerModule
 import com.example.runningtracker.domain.usecases.running_tracker.SetInfoInRunningUseCase
 import com.example.runningtracker.domain.usecases.running_tracker.StartRunningUseCase
@@ -13,6 +14,7 @@ import com.example.runningtracker.domain.usecases.running_tracker.StopTrackUseCa
 import com.example.runningtracker.domain.usecases.running_tracker.UpdateDistanceTrackUseCase
 import com.example.runningtracker.domain.usecases.running_tracker.UpdateTimeTrackUseCase
 import com.example.runningtracker.domain.usecases.running_tracker.UpdateWayTrackUseCase
+import com.example.runningtracker.domain.usecases.running_tracker.locale_db.SaveRunTrackerToDbUseCase
 import com.example.runningtracker.presentation.screens.map_screens.state.MapScreenState
 import com.example.runningtracker.presentation.screens.map_screens.utils.calculateTotalDistance
 import com.example.runningtracker.presentation.screens.map_screens.utils.timeIntegerToTimeHHMMSS
@@ -39,6 +41,9 @@ class MapScreenViewModel @Inject constructor(
     private val updateDistanceTrackUseCase: UpdateDistanceTrackUseCase,
     private val updateTimeTrackUseCase: UpdateTimeTrackUseCase,
     private val updateWayTrackUseCase: UpdateWayTrackUseCase,
+
+    // use cases running_tracker database
+    private val saveRunTrackerToDbUseCase: SaveRunTrackerToDbUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<MapScreenState> = MutableStateFlow<MapScreenState>(
@@ -225,6 +230,7 @@ class MapScreenViewModel @Inject constructor(
             val updateState = currentState.copy(
                 distanceTrack = String.format("%.2f", dist)
             )
+            updateDistanceTrackUseCase(updateState.distanceTrack)
             _state.value = updateState
         }
     }
@@ -237,13 +243,34 @@ class MapScreenViewModel @Inject constructor(
                 timeTrack = ZERO_TIME_TRACK,
                 distanceTrack = DISTANCE_TRACK
             )
-            updateDistanceTrackUseCase(currentState.distanceTrack)
+            saveRunTrackerToDb(
+                timeTrack = currentRunningTracker.value?.timeTrack ?: 0,
+                distanceTrack = _currentRunningTracker.value?.distanceTrack ?: "",
+                wayTrack = _currentRunningTracker.value?.wayTrack ?: listOf()
+            )
             _state.value = updateState
             timerJob?.cancel()
             timerJob = null
             stopTrackUseCase()
         }
     }
+    //endregion
+
+    //region RunTracker to MapScreen work in database
+    fun saveRunTrackerToDb(
+        timeTrack: Int,
+        distanceTrack: String,
+        wayTrack: List<PointTrack>
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            saveRunTrackerToDbUseCase(
+                timeTrack = timeTrack,
+                distanceTrack = distanceTrack,
+                wayTrack = wayTrack
+            )
+        }
+    }
+
     //endregion
 
     companion object {
