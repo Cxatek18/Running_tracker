@@ -1,6 +1,5 @@
 package com.example.runningtracker.data.repository.running_tracker
 
-import android.util.Log
 import com.example.runningtracker.domain.module.running_tracker.PointTrack
 import com.example.runningtracker.domain.module.running_tracker.RunTrackerModule
 import com.example.runningtracker.domain.repository.running_tracker.RunningTrackerRepository
@@ -85,7 +84,6 @@ class RunningTrackerRepositoryImpl @Inject constructor() : RunningTrackerReposit
     }
 
     override suspend fun stopTrack() {
-        Log.i("INFO", "save track to db")
         currentRunTracker.update {
             null
         }
