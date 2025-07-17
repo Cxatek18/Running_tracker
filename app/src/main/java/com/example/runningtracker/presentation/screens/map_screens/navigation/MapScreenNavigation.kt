@@ -15,6 +15,7 @@ import com.example.runningtracker.domain.module.running_tracker.RunTrackerModule
 import com.example.runningtracker.presentation.screens.map_screens.MapScreen
 import com.example.runningtracker.presentation.screens.map_screens.state.MapScreenState
 import com.example.runningtracker.presentation.screens.map_screens.view_models.MapScreenViewModel
+import com.example.runningtracker.presentation.screens.tracks_history.navigation.tracksHistoryScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -29,6 +30,9 @@ fun NavGraphBuilder.mapGraph(
 ) {
     navigation<MainGraph>(startDestination = MapScreenDestination) {
         mapScreen(
+            modifier = modifier
+        )
+        tracksHistoryScreen(
             modifier = modifier
         )
     }

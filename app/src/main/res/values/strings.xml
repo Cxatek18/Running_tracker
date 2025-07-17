@@ -33,4 +33,12 @@
     <string name="text_time_run">Время: %s</string>
     <string name="text_distance_run">Дистанция: %s m</string>
 <!-- endregion-->
+
+<!--region RunTrackInHistory texts-->
+    <string name="text_cd_ic_run">Бегущий человек</string>
+    <string name="text_time">Время: %s</string>
+    <string name="text_distance">Дистанция: %sm</string>
+    <string name="text_date">Дата: %s</string>
+    <string name="text_cd_ic_delete">Удалить</string>
+<!-- endregion-->
 </resources>

@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.sp
 val padding_24 = 24.dp
 val padding_20 = 20.dp
 val padding_12 = 12.dp
-
+val padding_8 = 8.dp
 val padding_0 = 0.dp
 //endregion
 
@@ -20,4 +20,12 @@ val fz_16 = 16.sp
 
 //region round
 val round_18 = 18.dp
+//endregion
+
+//region size
+val size_40 = 40.dp
+//endregion
+
+// region border size
+val size_border_card_2 = 2.dp
 //endregion
