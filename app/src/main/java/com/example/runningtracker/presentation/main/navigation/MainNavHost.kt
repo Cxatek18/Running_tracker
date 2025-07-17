@@ -1,5 +1,7 @@
 package com.example.runningtracker.presentation.main.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,7 +28,9 @@ import com.example.runningtracker.core.ui.theme.fz_24
 import com.example.runningtracker.core.ui.theme.padding_0
 import com.example.runningtracker.presentation.screens.map_screens.navigation.MainGraph
 import com.example.runningtracker.presentation.screens.map_screens.navigation.mapGraph
+import com.example.runningtracker.presentation.screens.tracks_history.navigation.navigateToTracksHistoryScreen
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainNavHost(
@@ -52,11 +57,15 @@ fun MainNavHost(
                     actionIconContentColor = MaterialTheme.colorScheme.secondary,
                 ),
                 actions = {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.cd_text_icon_history),
-                        tint = Color.White
-                    )
+                    IconButton(onClick = {
+                        navController.navigateToTracksHistoryScreen()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = stringResource(R.string.cd_text_icon_history),
+                            tint = Color.White
+                        )
+                    }
                 },
             )
         }

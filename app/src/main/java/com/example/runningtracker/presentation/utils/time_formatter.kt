@@ -1,4 +1,4 @@
-package com.example.runningtracker.presentation.screens.map_screens.utils
+package com.example.runningtracker.presentation.utils
 
 import android.annotation.SuppressLint
 

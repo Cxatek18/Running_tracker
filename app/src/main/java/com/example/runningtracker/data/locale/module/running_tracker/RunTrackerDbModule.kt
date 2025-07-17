@@ -8,5 +8,6 @@ data class RunTrackerDbModule(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val timeTrack: Int,
-    val distanceTrack: String
+    val distanceTrack: String,
+    val dateRunTrack: String
 )

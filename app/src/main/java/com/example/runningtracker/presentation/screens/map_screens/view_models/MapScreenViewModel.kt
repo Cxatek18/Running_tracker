@@ -17,7 +17,7 @@ import com.example.runningtracker.domain.usecases.running_tracker.UpdateWayTrack
 import com.example.runningtracker.domain.usecases.running_tracker.locale_db.SaveRunTrackerToDbUseCase
 import com.example.runningtracker.presentation.screens.map_screens.state.MapScreenState
 import com.example.runningtracker.presentation.screens.map_screens.utils.calculateTotalDistance
-import com.example.runningtracker.presentation.screens.map_screens.utils.timeIntegerToTimeHHMMSS
+import com.example.runningtracker.presentation.utils.timeIntegerToTimeHHMMSS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers

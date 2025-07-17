@@ -16,7 +16,9 @@ fun RunTrackerWithPointsDbModule.toRunTrackerModule(): RunTrackerModule {
         startPointTrack = this.wayTrack[0].toPointTrack(),
         timeTrack = this.runTracker.timeTrack,
         wayTrack = this.wayTrack.toListPintTrack(),
-        distanceTrack = this.runTracker.distanceTrack
+        distanceTrack = this.runTracker.distanceTrack,
+        dateRunTrack = this.runTracker.dateRunTrack,
+        idRunTrackerInDb = this.runTracker.id
     )
 }
 
