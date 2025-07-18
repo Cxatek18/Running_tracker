@@ -21,7 +21,8 @@ fun NavHostController.navigateToTracksHistoryScreen() {
 }
 
 fun NavGraphBuilder.tracksHistoryScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickNavigateToTrackDetail: (Int) -> Unit
 ) {
     composable<TracksHistoryScreenDestination> {
         val viewModel: TracksHistoryScreenViewModel = hiltViewModel()
@@ -29,7 +30,10 @@ fun NavGraphBuilder.tracksHistoryScreen(
         TracksHistoryScreen(
             modifier = modifier,
             viewModel = viewModel,
-            state = state
+            state = state,
+            onClickNavigateToTrackDetail = {
+                onClickNavigateToTrackDetail(it)
+            }
         )
     }
 }

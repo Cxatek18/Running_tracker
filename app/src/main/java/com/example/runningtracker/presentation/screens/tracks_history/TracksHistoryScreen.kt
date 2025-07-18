@@ -1,5 +1,6 @@
 package com.example.runningtracker.presentation.screens.tracks_history
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,7 +20,8 @@ import com.example.runningtracker.presentation.utils.timeIntegerToTimeHHMMSS
 fun TracksHistoryScreen(
     modifier: Modifier = Modifier,
     viewModel: TracksHistoryScreenViewModel,
-    state: TracksHistoryScreenState
+    state: TracksHistoryScreenState,
+    onClickNavigateToTrackDetail: (Int) -> Unit
 ) {
     LaunchedEffect(Unit) {
         viewModel.getListRunTrackerFromDb()
@@ -41,6 +43,9 @@ fun TracksHistoryScreen(
             ) {
                 items(state.tracksHistory) {
                     RunTrackInHistory(
+                        modifier = Modifier.clickable {
+                            onClickNavigateToTrackDetail(it.idRunTrackerInDb)
+                        },
                         timeTrack = timeIntegerToTimeHHMMSS(it.timeTrack),
                         distanceTrack = it.distanceTrack,
                         dateRunTrack = it.dateRunTrack,

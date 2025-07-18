@@ -28,6 +28,7 @@ import com.example.runningtracker.core.ui.theme.fz_24
 import com.example.runningtracker.core.ui.theme.padding_0
 import com.example.runningtracker.presentation.screens.map_screens.navigation.MainGraph
 import com.example.runningtracker.presentation.screens.map_screens.navigation.mapGraph
+import com.example.runningtracker.presentation.screens.track_detail.navigation.navigateToTrackDetail
 import com.example.runningtracker.presentation.screens.tracks_history.navigation.navigateToTracksHistoryScreen
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -76,7 +77,10 @@ fun MainNavHost(
         ) {
             mapGraph(
                 modifier = Modifier
-                    .padding(paddingValues = paddingValues)
+                    .padding(paddingValues = paddingValues),
+                onClickNavigateToTrackDetail = {
+                    navController.navigateToTrackDetail(it)
+                }
             )
         }
     }
