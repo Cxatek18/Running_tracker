@@ -15,6 +15,7 @@ import com.example.runningtracker.domain.module.running_tracker.RunTrackerModule
 import com.example.runningtracker.presentation.screens.map_screens.MapScreen
 import com.example.runningtracker.presentation.screens.map_screens.state.MapScreenState
 import com.example.runningtracker.presentation.screens.map_screens.view_models.MapScreenViewModel
+import com.example.runningtracker.presentation.screens.track_detail.navigation.trackDetailScreen
 import com.example.runningtracker.presentation.screens.tracks_history.navigation.tracksHistoryScreen
 import kotlinx.serialization.Serializable
 
@@ -26,13 +27,20 @@ object MapScreenDestination
 
 @RequiresApi(Build.VERSION_CODES.Q)
 fun NavGraphBuilder.mapGraph(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickNavigateToTrackDetail: (Int) -> Unit
 ) {
     navigation<MainGraph>(startDestination = MapScreenDestination) {
         mapScreen(
             modifier = modifier
         )
         tracksHistoryScreen(
+            modifier = modifier,
+            onClickNavigateToTrackDetail = {
+                onClickNavigateToTrackDetail(it)
+            }
+        )
+        trackDetailScreen(
             modifier = modifier
         )
     }
@@ -40,7 +48,7 @@ fun NavGraphBuilder.mapGraph(
 
 @RequiresApi(Build.VERSION_CODES.Q)
 fun NavGraphBuilder.mapScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     composable<MapScreenDestination> {
         val viewModel: MapScreenViewModel = hiltViewModel()

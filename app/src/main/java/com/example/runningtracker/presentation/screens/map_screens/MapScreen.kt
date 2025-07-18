@@ -118,7 +118,10 @@ fun MapScreen(
                                     exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut(),
                                     enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
                                 ) {
-                                    RunningTrackWindow(state = state)
+                                    RunningTrackWindow(
+                                        timeTrack = state.timeTrack,
+                                        distanceTrack = state.distanceTrack
+                                    )
                                 }
 
                                 Button(

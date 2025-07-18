@@ -1,24 +1,16 @@
 package com.example.runningtracker.data.repository.running_tracker.locale_db
 
 import com.example.runningtracker.data.locale.database.running_tracker.RunningTrackerDatabase
-import com.example.runningtracker.data.locale.mapper.running_tracker.toRunTrackerModule
 import com.example.runningtracker.data.locale.module.running_tracker.PointTrackDbModule
 import com.example.runningtracker.data.locale.module.running_tracker.RunTrackerDbModule
 import com.example.runningtracker.data.utils.getCurrentDate
 import com.example.runningtracker.domain.module.running_tracker.PointTrack
-import com.example.runningtracker.domain.module.running_tracker.RunTrackerModule
 import com.example.runningtracker.domain.repository.running_tracker.locale_db.RunningTrackerDbRepository
 import javax.inject.Inject
 
 class RunningTrackerDbRepositoryImpl @Inject constructor(
     private val runningTrackerDatabase: RunningTrackerDatabase
 ) : RunningTrackerDbRepository {
-
-    override suspend fun getRunTrackerFromDb(idRunTracker: Int): RunTrackerModule? {
-        return runningTrackerDatabase.runningTrackerDao().getRunTracker(
-            idRunTracker = idRunTracker
-        )?.toRunTrackerModule()
-    }
 
     override suspend fun saveRunTrackerToDb(
         timeTrack: Int,

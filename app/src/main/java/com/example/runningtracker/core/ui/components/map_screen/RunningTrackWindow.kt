@@ -1,6 +1,5 @@
 package com.example.runningtracker.core.ui.components.map_screen
 
-import android.R.attr.fontFamily
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,12 +20,12 @@ import com.example.runningtracker.core.ui.theme.fz_20
 import com.example.runningtracker.core.ui.theme.padding_12
 import com.example.runningtracker.core.ui.theme.padding_20
 import com.example.runningtracker.core.ui.theme.round_18
-import com.example.runningtracker.presentation.screens.map_screens.state.MapScreenState
 
 @Composable
 fun RunningTrackWindow(
     modifier: Modifier = Modifier,
-    state: MapScreenState.Success
+    timeTrack: String,
+    distanceTrack: String
 ) {
     Column(
         modifier = modifier
@@ -53,7 +52,7 @@ fun RunningTrackWindow(
         Text(
             text = String.format(
                 stringResource(R.string.text_time_run),
-                state.timeTrack
+                timeTrack
             ),
             color = Color.Black,
             fontSize = fz_20,
@@ -66,7 +65,7 @@ fun RunningTrackWindow(
         Text(
             text = String.format(
                 stringResource(R.string.text_distance_run),
-                state.distanceTrack
+                distanceTrack
             ),
             color = Color.Black,
             fontSize = fz_20,
