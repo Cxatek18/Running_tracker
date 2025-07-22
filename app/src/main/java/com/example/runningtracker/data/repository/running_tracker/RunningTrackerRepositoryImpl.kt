@@ -6,6 +6,7 @@ import com.example.runningtracker.domain.repository.running_tracker.RunningTrack
 import com.google.android.gms.common.util.CollectionUtils.listOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -39,8 +40,14 @@ class RunningTrackerRepositoryImpl @Inject constructor() : RunningTrackerReposit
         currentRunTracker.collect { emit(it) }
     }
 
-    override suspend fun setInfoInRunning(runTrackerModule: RunTrackerModule) {
-        currentRunTracker.value = runTrackerModule
+    override fun getCurrentRunTracker(): Flow<RunTrackerModule?> {
+        return currentRunTracker.asStateFlow()
+    }
+
+    override fun getCurrentRunTrackerInActivity(): Flow<RunTrackerModule> = flow {
+        currentRunTracker.value?.let {
+            emit(it)
+        }
     }
 
     override suspend fun updateDistanceTrack(distanceTrack: String) {

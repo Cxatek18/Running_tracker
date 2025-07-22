@@ -12,6 +12,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.runningtracker.domain.module.running_tracker.RunTrackerModule
+import com.example.runningtracker.domain.module.running_tracker.RunningTrackerBackgroundModule
 import com.example.runningtracker.presentation.screens.map_screens.MapScreen
 import com.example.runningtracker.presentation.screens.map_screens.state.MapScreenState
 import com.example.runningtracker.presentation.screens.map_screens.view_models.MapScreenViewModel
@@ -54,11 +55,13 @@ fun NavGraphBuilder.mapScreen(
         val viewModel: MapScreenViewModel = hiltViewModel()
         val state: MapScreenState by viewModel.state.collectAsStateWithLifecycle()
         val currentRunTracker: RunTrackerModule? by viewModel.currentRunningTracker.collectAsStateWithLifecycle()
+        val runningTrackerBackground: RunningTrackerBackgroundModule? by viewModel.runningTrackerBackground.collectAsStateWithLifecycle()
         MapScreen(
             modifier = modifier.background(color = MaterialTheme.colorScheme.background),
             viewModel = viewModel,
             state = state,
-            currentRunningTracker = currentRunTracker
+            currentRunningTracker = currentRunTracker,
+            runningTrackerBackground = runningTrackerBackground
         )
     }
 }

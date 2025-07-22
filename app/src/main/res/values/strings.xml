@@ -26,6 +26,7 @@
     <string name="text_requesting_permissions">Запрашиваем разрешения…</string>
     <string name="text_btn_start">Старт</string>
     <string name="text_btn_stop">Стоп</string>
+    <string name="text_allow_notifications">Разрешить уведомления</string>
 <!--endregion -->
 
 <!--region RunningTrackWindow texts-->
@@ -40,5 +41,23 @@
     <string name="text_distance">Дистанция: %sm</string>
     <string name="text_date">Дата: %s</string>
     <string name="text_cd_ic_delete">Удалить</string>
+<!-- endregion-->
+
+<!--region NeededNotificationPermission texts-->
+    <string name="text_open_settings_notification">Уведомления отключены. Включите их в ручную в настройках</string>
+<!-- endregion-->
+
+<!--region NoElementInHistory texts-->
+    <string name="text_no_track_in_history">Нету пробежек в истории</string>
+<!-- endregion-->
+
+<!--region RunningTrackerService texts-->
+    <string name="text_intent_action_stop_tracking">ACTION_STOP_TRACKING</string>
+    <string name="text_tracking_channel">tracking_channel</string>
+    <string name="text_location_tracking">Location Tracking</string>
+    <string name="text_title_service">Трекинг пробежки</string>
+    <string name="text_stop_service">Стоп</string>
+    <string name="text_open_app">Открыть приложение</string>
+    <string name="text_content_service">Время: %s Дистанция: %s м</string>
 <!-- endregion-->
 </resources>

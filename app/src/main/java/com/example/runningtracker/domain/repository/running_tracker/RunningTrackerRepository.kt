@@ -10,9 +10,9 @@ interface RunningTrackerRepository {
         startPointLocationLongitude: Double
     ): Flow<RunTrackerModule?>
 
-    suspend fun setInfoInRunning(
-        runTrackerModule: RunTrackerModule
-    )
+    fun getCurrentRunTracker(): Flow<RunTrackerModule?>
+
+    fun getCurrentRunTrackerInActivity(): Flow<RunTrackerModule>
 
     suspend fun updateDistanceTrack(
         distanceTrack: String
