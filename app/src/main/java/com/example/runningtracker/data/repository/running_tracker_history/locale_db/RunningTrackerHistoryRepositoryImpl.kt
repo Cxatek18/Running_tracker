@@ -17,6 +17,7 @@ class RunningTrackerHistoryDbRepositoryImpl @Inject constructor(
             runningTrackerDatabase
                 .runningTrackerDao()
                 .getListRunTracker()
+                .sortedByDescending { it.runTracker.id }
                 .toListRunTrackerModule()
         )
     }

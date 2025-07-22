@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.runningtracker.domain.module.running_tracker.PointTrack
 import com.example.runningtracker.domain.module.running_tracker.RunTrackerModule
-import com.example.runningtracker.domain.usecases.running_tracker.SetInfoInRunningUseCase
+import com.example.runningtracker.domain.module.running_tracker.RunningTrackerBackgroundModule
+import com.example.runningtracker.domain.usecases.running_tracker.ChangeIsBackgroundWorkUseCase
+import com.example.runningtracker.domain.usecases.running_tracker.GetCurrentRunTrackerInActivityUseCase
+import com.example.runningtracker.domain.usecases.running_tracker.GetRunningTrackerBackgroundModuleUseCase
 import com.example.runningtracker.domain.usecases.running_tracker.StartRunningUseCase
 import com.example.runningtracker.domain.usecases.running_tracker.StopTrackUseCase
 import com.example.runningtracker.domain.usecases.running_tracker.UpdateDistanceTrackUseCase
@@ -36,14 +39,18 @@ import javax.inject.Inject
 class MapScreenViewModel @Inject constructor(
     @ApplicationContext val context: Context,
     private val startRunningUseCase: StartRunningUseCase,
-    private val setInfoInRunningUseCase: SetInfoInRunningUseCase,
     private val stopTrackUseCase: StopTrackUseCase,
     private val updateDistanceTrackUseCase: UpdateDistanceTrackUseCase,
     private val updateTimeTrackUseCase: UpdateTimeTrackUseCase,
     private val updateWayTrackUseCase: UpdateWayTrackUseCase,
+    private val getCurrentRunTrackerInActivityUseCase: GetCurrentRunTrackerInActivityUseCase,
 
     // use cases running_tracker database
-    private val saveRunTrackerToDbUseCase: SaveRunTrackerToDbUseCase
+    private val saveRunTrackerToDbUseCase: SaveRunTrackerToDbUseCase,
+
+    // use cases background work track
+    private val changeIsBackgroundWorkUseCase: ChangeIsBackgroundWorkUseCase,
+    private val getRunningTrackerBackgroundModuleUseCase: GetRunningTrackerBackgroundModuleUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<MapScreenState> = MutableStateFlow<MapScreenState>(
@@ -55,6 +62,13 @@ class MapScreenViewModel @Inject constructor(
         null
     )
     val currentRunningTracker: StateFlow<RunTrackerModule?> = _currentRunningTracker.asStateFlow()
+
+    private val _runningTrackerBackground: MutableStateFlow<RunningTrackerBackgroundModule?> =
+        MutableStateFlow(
+            null
+        )
+    val runningTrackerBackground: StateFlow<RunningTrackerBackgroundModule?> =
+        _runningTrackerBackground.asStateFlow()
 
     private var timerJob: Job? = null
 
@@ -165,7 +179,7 @@ class MapScreenViewModel @Inject constructor(
                 startPointLocationLongitude = startPointLocationLongitude,
             )
                 .catch {
-                    Log.d("DEBUG", "$it")
+                    Log.d(TAG_DEBUG, "$it")
                 }
                 .collect { runTrackModule ->
                     _currentRunningTracker.value = runTrackModule
@@ -201,7 +215,7 @@ class MapScreenViewModel @Inject constructor(
     fun updateTimeTrack() {
         if (timerJob?.isActive == true) return
         timerJob = viewModelScope.launch {
-            var timeInt = 0
+            var timeInt = _currentRunningTracker.value?.timeTrack ?: 0
             while (isActive) {
                 delay(1000L)
                 val currentState =
@@ -232,6 +246,18 @@ class MapScreenViewModel @Inject constructor(
             )
             updateDistanceTrackUseCase(updateState.distanceTrack)
             _state.value = updateState
+        }
+    }
+
+    fun getCurrentRunTrackerInActivity() {
+        viewModelScope.launch {
+            getCurrentRunTrackerInActivityUseCase()
+                .catch {
+                    Log.d(TAG_DEBUG, "$it")
+                }
+                .collect {
+                    _currentRunningTracker.value = it
+                }
         }
     }
 
@@ -270,7 +296,26 @@ class MapScreenViewModel @Inject constructor(
             )
         }
     }
+    //endregion
 
+    //region Tracker background
+    fun getRunningTrackerBackgroundModule() {
+        viewModelScope.launch {
+            getRunningTrackerBackgroundModuleUseCase()
+                .catch {
+                    Log.d(TAG_DEBUG, "$it")
+                }
+                .collect {
+                    _runningTrackerBackground.value = it
+                }
+        }
+    }
+
+    fun changeIsBackgroundWork(value: Boolean) {
+        viewModelScope.launch {
+            changeIsBackgroundWorkUseCase(value)
+        }
+    }
     //endregion
 
     companion object {
@@ -278,5 +323,7 @@ class MapScreenViewModel @Inject constructor(
         const val ZERO_TIME_TRACK = "00:00:00"
         const val RADIUS_EARTH = 6371000.0
         const val DISTANCE_TRACK = "0.00"
+
+        private const val TAG_DEBUG = "DEBUG"
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.example.runningtracker.core.ui.components.tracks_histor_screen.LoadingElement
+import com.example.runningtracker.core.ui.components.tracks_histor_screen.NoElementInHistory
 import com.example.runningtracker.core.ui.components.tracks_histor_screen.RunTrackInHistory
 import com.example.runningtracker.core.ui.theme.padding_12
 import com.example.runningtracker.core.ui.theme.padding_24
@@ -35,6 +36,11 @@ fun TracksHistoryScreen(
         }
 
         is TracksHistoryScreenState.Success -> {
+            if (state.tracksHistory.isEmpty()) {
+                NoElementInHistory(
+                    modifier = modifier
+                )
+            }
             LazyColumn(
                 modifier = modifier
                     .padding(top = padding_24)
