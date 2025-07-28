@@ -19,7 +19,7 @@
 <!--endregion -->
 
 <!--region LocationLoadingBar texts-->
-    <string name="text_loading_location">Не пугайтесь что вы в море, через несколько секунд все станет хорошо, а пока отдохните на море</string>
+    <string name="text_loading_location">Мы загружаем вашу локацию, подождите немного, спасибо за понимание!</string>
 <!--endregion -->
 
 <!--region MapScreen texts-->
@@ -27,6 +27,7 @@
     <string name="text_btn_start">Старт</string>
     <string name="text_btn_stop">Стоп</string>
     <string name="text_allow_notifications">Разрешить уведомления</string>
+    <string name="text_key_current_track_id">CURRENT_TRACK</string>
 <!--endregion -->
 
 <!--region RunningTrackWindow texts-->

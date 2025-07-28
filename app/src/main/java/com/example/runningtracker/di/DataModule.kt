@@ -1,8 +1,9 @@
 package com.example.runningtracker.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.runningtracker.data.locale.database.running_tracker.RunningTrackerDatabase
+import com.example.runningtracker.runtracker.data.locale.database.RunningTrackerDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +27,14 @@ class DataModule {
             name = "running_tracker.db"
         ).build()
     }
+    //endregion
+
+    //region  Shared preferences
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences =
+        context.getSharedPreferences("RunTrackerPreferences", Context.MODE_PRIVATE)
     //endregion
 }
