@@ -10,6 +10,7 @@ activityCompose = "1.10.1"
 composeBom = "2025.06.01"
 
 kspVersion = "2.2.0-2.0.2"
+lottieCompose = "6.6.7"
 versionNavigation = "2.9.1"
 lifecycleViewModelComposeVersion = "2.9.1"
 hiltVersion = "2.56.2"
@@ -100,6 +101,9 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
+
+# lottie
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,0 +1,13 @@
+package com.example.runningtracker.runtracker.data.locale.module
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "running_tracker")
+data class RunTrackerDbModule(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val timeTrack: Int,
+    val distanceTrack: String,
+    val dateRunTrack: String
+)
